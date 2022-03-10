@@ -11,6 +11,12 @@ let cardsDisabled = [];
 let numAttempts = 0;
 let numFailedAttempts = 0;
 
+// POP-UP
+const closeModalButton = document.querySelector("#close-button");
+const overlay = document.getElementById("overlay");
+const popup = document.querySelector("#popup");
+
+
 function isFirstCardFlipped() {
     return firstCard != null;
 }
@@ -56,7 +62,7 @@ function isGameWon() {
     setTimeout(() => {
         let isGameWon = cardsDisabled.length == cards.length;
         if (isGameWon) {
-            alert("You have won the game!")
+            openPopup(popup);
         }
     }, 550);
 }
@@ -126,6 +132,34 @@ function restartGame() {
     resetPair();
     resetStats();
 }
+
+// POP-UP Functions
+
+function openPopup(popup) {
+    if (popup == null) {
+        return
+    }
+    popup.classList.add("active");
+    overlay.classList.add("active");
+}
+
+function closePopup(popup) {
+    if (popup == null) {
+        return
+    }
+    popup.classList.remove("active");
+    overlay.classList.remove("active");
+}
+
+overlay.addEventListener("click", function() {
+    closePopup(popup);
+});
+
+closeModalButton.addEventListener("click", function() {
+    closePopup(popup);
+});
+
+
 
 cards.forEach(card => card.addEventListener("click", flipCard));
 restartBttn.addEventListener("click", restartGame);
